@@ -1,0 +1,125 @@
+
+
+//APP VERSION
+#define APP_VERSION     @"2.0.4"
+
+
+ // DEV KEYS
+ #define CLIENT_ID        @"5f3b5cb70ace29e23aa32cbd48ddd6e783187d112378db39542c81dbdaf9e6ca"
+ #define CLIENT_SECRET    @"bfad4742725bfb9df754bf332bb746e52b6fb17c66a2788b84fcb3a2c542ce05"
+ 
+ //API URLS
+
+ #define kBASE_URL        @"http://tingrdev.us-east-1.elasticbeanstalk.com/"
+ #define BASE_URL         @"http://tingrdev.us-east-1.elasticbeanstalk.com/api/"
+ #define kBaseURL         @"http://tingrdev.us-east-1.elasticbeanstalk.com/api"
+
+
+/*
+//PROD KEYS
+#define CLIENT_ID        @"6e7801c3182c8caeb422cc82bb706072a45b869d54d0da46d73cd4087c07faa1"
+#define CLIENT_SECRET    @"f074259553a453064c8f12f1d75e72511b4248011fadbcc97dcd876bd36c7098"
+
+//API URLS
+#define kBASE_URL        @"https://tingr.org"
+#define BASE_URL         @"https://tingr.org/api/"
+#define kBaseURL         @"https://tingr.org/api"
+
+*/
+#define PARSE_APPLICATION_KEY   @"5QL5BzQLkteqxx8g67MbvkeSxaOqlcptVMiCMO8I"
+#define PARSE_CLIENT_KEY        @"uwIavIaJj75NhUffiQ7oQG0oDAysZvK37X5NKT8F"
+
+#define FLURRY_KEY       @"2M98PVGP365QQBD9VQX2"
+
+
+// Facebook Namespace
+#define FACEBOOK_NAME_SPACE       @"prodmioskidslink"
+
+//AVIARY
+#define kAFAviaryAPIKey         @"e9d5541aa86c51c9"
+#define kAFAviarySecret         @"ea86727d549f068d"
+
+// NOTIFICATION STRINGS
+#define POP_TO_LOGIN            @"POP_TO_LOGIN"
+#define POP_TO_DOCUMENT_LIST    @"POP_TO_DOCUMENT_LIST"
+#define PUSH_TO_SAVE_A_DOCUMENT @"PUSH_TO_SAVE_A_DOCUMENT"
+#define FACEBOOK_CHECK          @"FACEBOOK_CHECK"
+#define SET_MORE_BADGE          @"SET_MORE_BADGE"
+#define SET_FRIEND_BADGE        @"SET_FRIEND_BADGE"
+
+#define IOS_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]
+#define Deviceheight  [UIScreen mainScreen].bounds.size.height
+#define Devicewidth  [UIScreen mainScreen].bounds.size.width
+#define MainWindow [[[UIApplication sharedApplication] delegate] window]
+#define Spinner [CustomDailogueUtilis sharedInstance]
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+green:((float)((rgbValue & 0x00FF00) >>  8))/255.0 \
+blue:((float)((rgbValue & 0x0000FF) >>  0))/255.0 \
+alpha:1.0]
+
+//Alert
+#define ShowAlert(title,msg,cancelButtonName) UIAlertView *alert =[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:cancelButtonName otherButtonTitles:nil];\
+[alert show];
+
+#define PROJECT_NAME            @"Tingr"
+
+//iBeacon UUID
+#define BEACON_UUID @"DDDDDDDD-BBBB-DDDD-BBBB-DBDBDBDBDBDB"
+#define BEACON_IDENTIFIER @"org.tingr.parent.prod"
+
+
+
+//SPECIFIC WEB PAGES
+#define REQUEST_INVITATION      @"http://mykidslink.com/in-app/iPhone/getInvitation201410.html"
+#define SIGNUP                  @"http://www.mykidslink.com/in-app/iPhone/getInvitation.html"
+#define REDEEM_INVITATION       @"https://me.mykidslink.com/m/get-invited"
+#define ORGANIZATIONS           @"http://www.mykidslink.com/in-app/iPhone/organizations.html"
+#define SUPPORT                 @"http://www.mykidslink.com/in-app/iPhone/support.html"
+#define ADD_CHILD_LEARN_MORE    @"http://www.mykidslink.com/in-app/iPhone/addChildLearnMore.html"
+#define CHILD_EDIT_LEARN_MORE   @"http://www.mykidslink.com/in-app/iPhone/profileDetailsLearnMore.html"
+
+#define CTTimeStart() NSDate * __date = [NSDate date]
+#define CTTimeEnd(MSG) DebugLog(MSG " %g",[__date timeIntervalSinceNow]*-1)
+
+//VALIDATION MESSAGES AND MISC MESSAGES
+#define NO_INTERNET_CONNECTION  @"No internet connection. Try again after connecting to internet"
+#define FAILED_LOGIN            @"Username and Password didn't match."
+#define PASSWORD_LENGTH_INVALID @"Password must be at least 6 characters."
+#define EMAIL_INVALID           @"Please provide a valid email address."
+#define EMAIL_PASS_REQUIRED     @"Please enter your email and password."
+#define ALL_FIELDS_REQUIRED     @"All fields are required"
+#define FORGOT_PASS_SUCCESS_MESSAGE @"You will receive an email with instructions about how to reset your password in a few minutes."
+#define ENTER_PHONE_NUMBER      @"Please enter phone number"
+#define NO_CAMERA               @"This device doesn't have a camera."
+#define NO_PHOTO_LIBRARIES      @"This device doesn't support photo libraries."
+#define DOCUMENT_OWNER          @"Please select who this document belongs to"
+#define SELECT_DOC_TYPE         @"Please select the document type"
+#define ADD_DOC_TYPE            @"Add document type"
+#define ENTER_DOC_DETAILS       @"Enter the details about this document"
+
+//CONTROLLER TEXT
+#define LOADING                 @"Loading..."
+
+//FACEBOOK
+#define TITLE_URL               @"http://www.mykidslink.com"
+
+//INSTAGRAM
+#define INSTAGRAM_ALERT_TITLE         @"Oops!"
+#define INSTAGRAM_ALERT_BODY_SHARE    @"You can't share to Instagram without a photo. Make sure to select one above."
+#define INSTAGRAM_ALERT_OK            @"OK"
+#define INSTAGRAM_ALERT_BODY_INSTALL  @"You don't have Instagram installed. Download Instagram from the App Store to share from KidsLink."
+#define SHOW_INSTAGRAM_MESSAGE        @"SHOW_INSTAGRAM_MESSAGE"
+#define HIDE_INSTAGRAM_MESSAGE        @"HIDE_INSTAGRAM_MESSAGE"
+// For Streams
+#define INSTAGRAM_ALERT_TITLE_SHARE_NOPHOTO_IN_STREAMS   @"Oops!"
+#define INSTAGRAM_ALERT_BODY_SHARE_NOPHOTO_IN_STREAMS    @"You can't share to Instagram without a photo."
+
+#define FACEBOOK_ALERT_TITLE_FOR_SAYSOMETHING_FIRST_POST @"Oops!"
+#define FACEBOOK_ALERT_BODY_FOR_SAYSOMETHING_FIRST_POST  @"Say Something posts can't be shared to Facebook"
+#define FACEBOOK_ALERT_OK                                @"OK"
+
+#define INSTAGRAM_ALERT_TITLE_FOR_SAYSOMETHING_FIRST_POST @"Oops!"
+#define INSTAGRAM_ALERT_BODY_FOR_SAYSOMETHING_FIRST_POST  @"Say Something posts can't be shared to Instagram"
+
+
+

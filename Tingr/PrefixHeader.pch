@@ -1,0 +1,45 @@
+//
+//  PrefixHeader.pch
+//  Tingr
+//
+//  Created by Maisa Pride on 7/17/17.
+//  Copyright © 2017 Maisa Pride. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import "StringConstants.h"
+#import "HomeViewController.h"
+#import "UIView+ViewCatagory.h"
+#import <QuartzCore/QuartzCore.h>
+#import "AFNetworking.h"
+#import "API.h"
+#import "AppDelegate.h"
+#import "StringConstants.h"
+#import "SingletonClass.h"
+#import "Factory.h"
+#import "ModelManager.h"
+#import "UIImageView+AFNetworking.h"
+#import "ProfilePhotoUtils.h"
+#import "UIImage+animatedGIF.h"
+#import "Reachability.h"
+#import "TPKeyboardAvoidingScrollView.h"
+#import "SVProgressHUD.h"
+#import "SlideNavigationController.h"
+#import "MenuViewController.h"
+#import "WebViewController.h"
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#ifdef DEBUG
+#define DebugLog( s, ... ) NSLog( @"<%p %@:%d (%@)> %@", self, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__,  NSStringFromSelector(_cmd), [NSString stringWithFormat:(s), ##__VA_ARGS__] )
+#else
+#define DebugLog( s, ... )
+#endif
+
+#define Deviceheight  [UIScreen mainScreen].bounds.size.height
+#define IOS_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]
+
+
+#endif /* PrefixHeader_pch */
