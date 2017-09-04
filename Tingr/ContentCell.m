@@ -22,19 +22,19 @@
     self = [super initWithFrame:frame];
     if(self) {
         
-        profileDateUtils = [ProfileDateUtils alloc];
-        photoUtils = [ProfilePhotoUtils alloc];
-        colorsArray = @[@0xcb5382,@0x007966,@0xcb0e40];
-        
-        self.mediaFocusManager = [[ASMediaFocusManager alloc] init];
-        self.mediaFocusManager.delegate = self;
-
     }
     return self;
 }
 
 - (void)setPost:(NSDictionary *)post
 {
+    profileDateUtils = [ProfileDateUtils alloc];
+    photoUtils = [ProfilePhotoUtils alloc];
+    
+    self.mediaFocusManager = [[ASMediaFocusManager alloc] init];
+    self.mediaFocusManager.delegate = self;
+    
+
         _post = post;
         [self setUpViews];
     if([[self.post objectForKey:@"tagged_to"] count] == 1)
@@ -522,8 +522,24 @@
 
     
     int randomIndex = arc4random() % 3;
-    drawingView.backgroundColor = UIColorFromRGB([colorsArray[randomIndex] integerValue]);
+    switch (randomIndex) {
+        case 0:
+            drawingView.backgroundColor = [UIColor colorWithRed:203/255.0 green:83/255.0 blue:130/255.0 alpha:1.0];
 
+            break;
+        case 1:
+            drawingView.backgroundColor = [UIColor colorWithRed:0/255.0 green:121/255.0 blue:102/255.0 alpha:1.0];
+            
+            break;
+        case 2:
+            drawingView.backgroundColor = [UIColor colorWithRed:203/255.0 green:14/255.0 blue:64/255.0 alpha:1.0];
+            
+            break;
+            
+        default:
+            break;
+    }
+    
     CGRect frame = drawingView.frame;
     frame.size.height = yPosition;
     drawingView.frame = frame;

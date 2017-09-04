@@ -14,7 +14,7 @@
 @end
 
 
-@interface ContentCell : UICollectionViewCell<ASMediasFocusDelegate>
+@interface ContentCell : UITableViewCell<ASMediasFocusDelegate>
 @property (nonatomic, weak) id<ContentCellDelegate> delegate;
 @property (nonatomic, strong) NSDictionary *post;
 @property (nonatomic, assign) int postIndex;

@@ -18,7 +18,7 @@
     UIRefreshControl *refreshControl;
     int selelctedIndex;
 }
-@synthesize orgID,feedCollectionView;
+@synthesize orgID,feedTableView;
 @synthesize bProcessing;
 @synthesize isDeletingProcessed;
 @synthesize storiesArray;
@@ -39,16 +39,15 @@
         [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
         
         
-        feedCollectionView =[[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:layout];
-        [feedCollectionView setDataSource:self];
-        [feedCollectionView setDelegate:self];
-        feedCollectionView.backgroundColor = [UIColor whiteColor];
-        [feedCollectionView registerClass:[ContentCell class] forCellWithReuseIdentifier:@"ContentCell"];
-        [self addSubview:feedCollectionView];
         
-
-        [feedCollectionView addSubview:refreshControl];
-        feedCollectionView.alwaysBounceVertical = YES;
+        
+        feedTableView =[[UITableView alloc] initWithFrame:self.bounds];
+        [feedTableView setDataSource:self];
+        [feedTableView setDelegate:self];
+        feedTableView.backgroundColor = [UIColor whiteColor];
+        [feedTableView registerClass:[ContentCell class] forCellReuseIdentifier:@"ContentCell"];
+        [self addSubview:feedTableView];
+        [feedTableView addSubview:refreshControl];
 
         
         storiesArray = [[NSMutableArray alloc] init];
@@ -70,7 +69,7 @@
     
     [storiesArray replaceObjectAtIndex:selelctedIndex withObject:postDict];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:selelctedIndex inSection:0];
-    [feedCollectionView reloadItemsAtIndexPaths:@[indexPath]];
+    [feedTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
     
 }
 -(void)handleRefresh:(id)sender
@@ -217,7 +216,7 @@
             dict1 = [storiesArray objectAtIndex:1];
         }
         
-        [feedCollectionView reloadData];
+        [feedTableView reloadData];
         
         
     }
@@ -237,34 +236,34 @@
     
     [self clearAllData];
     [storiesArray removeAllObjects];
-    [feedCollectionView reloadData];
+    [feedTableView reloadData];
     
     [self callStoresApi:@"next"];
 }
 #pragma mark -
-#pragma CollectionView Delegate Methods
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+#pragma Tabkeview Delegate Methods
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return storiesArray.count;
-    
 }
 
-// The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ContentCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ContentCell" forIndexPath:indexPath];
+
+    float height = [self calculateHeightForRow:indexPath.row];
+    return height;
+}
+// The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContentCell"];
     cell.post = storiesArray[indexPath.row];
     cell.delegate = self;
     cell.postIndex = (int)indexPath.row;
     return cell;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    float height = [self calculateHeightForRow:indexPath.row];
-    
-    return CGSizeMake(Devicewidth, height);
-}
 -(float )calculateHeightForRow:(long int)row {
     
     NSDictionary *post = [storiesArray objectAtIndex:row];
@@ -353,16 +352,17 @@
     return height;
     
 }
-
--(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if(storiesArray.count -1 == indexPath.row && isMoreAvailabel)
     {
         
         [self performSelectorInBackground:@selector(callStoresApi:) withObject:@"next"];;
     }
+
+    
 }
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     selelctedIndex = (int)indexPath.row;
     NSDictionary *post = [storiesArray objectAtIndex:indexPath.row];
@@ -371,10 +371,9 @@
     postCntrl.post = [post mutableCopy];
     AppDelegate *appdelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appdelegate.navgController pushViewController:postCntrl animated:YES];
-    
+
     
 }
-
 - (void)commentClick:(int)index {
     
     selelctedIndex = index;

@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "PostDetailedViewController.h"
 #import "ContentCell.h"
-@interface FeedView : UIView<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,UICollectionViewDelegate,PostDetailedDelegate,ContentCellDelegate>
+@interface FeedView : UIView<UITableViewDelegate,UITableViewDataSource,PostDetailedDelegate,ContentCellDelegate>
 @property (nonatomic, strong) NSString *orgID;
 @property (nonatomic) BOOL bProcessing;
-@property (nonatomic, strong) UICollectionView *feedCollectionView;
+@property (nonatomic, strong) UITableView *feedTableView;
 @property (nonatomic, assign) BOOL isRefreshing;
 @property (nonatomic, assign) BOOL isDeletingProcessed;
 @property (nonatomic, strong) NSMutableArray *storiesArray;
