@@ -20,6 +20,10 @@
 		7FE8ACF71F2D14EB00EFD172 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7FE8ACF51F2D14EB00EFD172 /* GoogleService-Info.plist */; };
 		7FE8ACF81F2D14EB00EFD172 /* firebasecrashreport.json in Resources */ = {isa = PBXBuildFile; fileRef = 7FE8ACF61F2D14EB00EFD172 /* firebasecrashreport.json */; };
 		7FE8ACFD1F2D9D3600EFD172 /* FeedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FE8ACFC1F2D9D3600EFD172 /* FeedView.m */; };
+		7FEDB0231F650F8400429678 /* ImagesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FEDB0211F650F8400429678 /* ImagesCell.m */; };
+		7FEDB0241F650F8400429678 /* ImagesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7FEDB0221F650F8400429678 /* ImagesCell.xib */; };
+		7FEDB0281F650FA100429678 /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FEDB0261F650FA100429678 /* TextCell.m */; };
+		7FEDB0291F650FA100429678 /* TextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7FEDB0271F650FA100429678 /* TextCell.xib */; };
 		7FEDF7301F2B22910059D794 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FEDF72F1F2B22910059D794 /* MessageViewController.m */; };
 		7FEDF7331F2B444F0059D794 /* MessageDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FEDF7321F2B444F0059D794 /* MessageDetailsView.m */; };
 		7FF806E71F227EB100193067 /* API.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FF806E61F227EB100193067 /* API.m */; };
@@ -124,6 +128,12 @@
 		7FE8ACFA1F2D15BC00EFD172 /* Tingr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tingr.entitlements; sourceTree = "<group>"; };
 		7FE8ACFB1F2D9D3600EFD172 /* FeedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedView.h; sourceTree = "<group>"; };
 		7FE8ACFC1F2D9D3600EFD172 /* FeedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedView.m; sourceTree = "<group>"; };
+		7FEDB0201F650F8400429678 /* ImagesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagesCell.h; sourceTree = "<group>"; };
+		7FEDB0211F650F8400429678 /* ImagesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagesCell.m; sourceTree = "<group>"; };
+		7FEDB0221F650F8400429678 /* ImagesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImagesCell.xib; sourceTree = "<group>"; };
+		7FEDB0251F650FA100429678 /* TextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextCell.h; sourceTree = "<group>"; };
+		7FEDB0261F650FA100429678 /* TextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextCell.m; sourceTree = "<group>"; };
+		7FEDB0271F650FA100429678 /* TextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextCell.xib; sourceTree = "<group>"; };
 		7FEDF72E1F2B22910059D794 /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
 		7FEDF72F1F2B22910059D794 /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
 		7FEDF7311F2B444F0059D794 /* MessageDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDetailsView.h; sourceTree = "<group>"; };
@@ -569,6 +579,12 @@
 				7FE8ACF11F2C5A3D00EFD172 /* PostDetailedViewController.m */,
 				7FE8ACFB1F2D9D3600EFD172 /* FeedView.h */,
 				7FE8ACFC1F2D9D3600EFD172 /* FeedView.m */,
+				7FEDB0201F650F8400429678 /* ImagesCell.h */,
+				7FEDB0211F650F8400429678 /* ImagesCell.m */,
+				7FEDB0221F650F8400429678 /* ImagesCell.xib */,
+				7FEDB0251F650FA100429678 /* TextCell.h */,
+				7FEDB0261F650FA100429678 /* TextCell.m */,
+				7FEDB0271F650FA100429678 /* TextCell.xib */,
 				7FF891DD1F26EA2A00EAD698 /* ContentCell.h */,
 				7FF891DE1F26EA2A00EAD698 /* ContentCell.m */,
 				7FF891F41F28785300EAD698 /* InfoViewController.h */,
@@ -709,12 +725,14 @@
 				7FF891B31F24A55200EAD698 /* SVProgressHUD.bundle in Resources */,
 				7FF806EA1F227F3F00193067 /* Anton.ttf in Resources */,
 				7FF892161F2AFA5D00EAD698 /* ASMediaFocusController.xib in Resources */,
+				7FEDB0291F650FA100429678 /* TextCell.xib in Resources */,
 				7F062C711F1C7825005236FE /* LaunchScreen.storyboard in Resources */,
 				7FF8074E1F2320C800193067 /* Antonio-Bold.ttf in Resources */,
 				7FF891981F247E2A00EAD698 /* loading.gif in Resources */,
 				7F062C6E1F1C7825005236FE /* Assets.xcassets in Resources */,
 				7FE8ACF71F2D14EB00EFD172 /* GoogleService-Info.plist in Resources */,
 				7FF8919A1F247E8100EAD698 /* loading_trimmed.gif in Resources */,
+				7FEDB0241F650F8400429678 /* ImagesCell.xib in Resources */,
 				7FE8ACF81F2D14EB00EFD172 /* firebasecrashreport.json in Resources */,
 				7FF8074F1F2320C800193067 /* Antonio-Light.ttf in Resources */,
 			);
@@ -834,12 +852,14 @@
 				7FF807041F227F6B00193067 /* UIWebView+AFNetworking.m in Sources */,
 				7FF891B11F24A55200EAD698 /* SVIndefiniteAnimatedView.m in Sources */,
 				7FF891D01F2539A800EAD698 /* SlideNavigationController.m in Sources */,
+				7FEDB0281F650FA100429678 /* TextCell.m in Sources */,
 				7FF807441F22806F00193067 /* Factory.m in Sources */,
 				7FF8073B1F22805500193067 /* VOUserProfile.m in Sources */,
 				7FF891F61F28785300EAD698 /* InfoViewController.m in Sources */,
 				7FF807231F227FA500193067 /* AFURLRequestSerialization.m in Sources */,
 				7FF891CE1F2539A800EAD698 /* SlideNavigationContorllerAnimatorScale.m in Sources */,
 				7FF891CB1F2539A800EAD698 /* SlideNavigationContorllerAnimatorSlide.m in Sources */,
+				7FEDB0231F650F8400429678 /* ImagesCell.m in Sources */,
 				7FF8073E1F22805500193067 /* VOAddKid.m in Sources */,
 				7FF891F31F286C7C00EAD698 /* Base64.m in Sources */,
 				7FF807201F227FA500193067 /* AFNetworkReachabilityManager.m in Sources */,
