@@ -267,9 +267,13 @@
 -(void)callAPI {
     
     [SVProgressHUD show];
+    NSString* token = sharedModel.accessToken.access_token;
+
     NSDictionary* bodyData = @{@"email": emailTxtField.text};
     NSDictionary* postData = @{@"command": @"evaluate_user",
+                               @"access_token": token,
                                @"body": bodyData};
+
     NSDictionary *userInfo = @{@"command":@"evaluate_user"};
     
     NSString *urlAsString = [NSString stringWithFormat:@"%@users",BASE_URL];
