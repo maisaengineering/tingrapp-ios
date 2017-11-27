@@ -525,7 +525,7 @@
     
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSX"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssz"];
     NSDate *date = [dateFormatter dateFromString:create_at];
     [dateFormatter setDateFormat:@"EEE, MMM d, ''yy 'at' hh:mm a"];
     NSString *formattedTime = [dateFormatter stringFromDate:date];
