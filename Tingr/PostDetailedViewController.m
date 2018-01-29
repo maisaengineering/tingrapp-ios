@@ -41,6 +41,9 @@
     NSArray *heartersList;
     
     BOOL animated;
+    float topSpace;
+    float bottomSpace;
+    
 }
 @end
 
@@ -51,6 +54,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    topSpace = 0;
+    bottomSpace = 0;
+    if(appDelegate.topSafeAreaInset > 0)
+    {
+        topSpace = 15;
+        bottomSpace = 30;
+    }
+
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -64,7 +77,7 @@
     
     
     maxHeaderHeight = 300;
-    minHeaderHeight = 64;
+    minHeaderHeight = 64+topSpace;
     previousScrollOffset = 0;
     [self setUpViews];
 
@@ -138,10 +151,7 @@
 }
 -(void)setUpViews {
     
-    
-
-    
-    messageDetailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, maxHeaderHeight, Devicewidth, Deviceheight-maxHeaderHeight-60)];
+    messageDetailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, maxHeaderHeight, Devicewidth, Deviceheight-maxHeaderHeight-60-bottomSpace)];
     messageDetailTableView.delegate = self;
     messageDetailTableView.tableFooterView = [UIView new];
     messageDetailTableView.dataSource = self;
@@ -322,7 +332,7 @@
     
     
     UIButton *backButton  = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0, 20, 44, 44);
+    backButton.frame = CGRectMake(0, 20+topSpace, 44, 44);
     [backButton setImage:[UIImage imageNamed:@"back_arrow"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backButton];
@@ -343,7 +353,7 @@
 
 -(void)createMessageView {
     
-    self.commentView = [[UIView alloc] initWithFrame:CGRectMake(0, Deviceheight - 60, Devicewidth, 60)];
+    self.commentView = [[UIView alloc] initWithFrame:CGRectMake(0, Deviceheight - 60 - bottomSpace, Devicewidth, 60+bottomSpace)];
     self.commentView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.commentView];
     self.txt_comment = [[UITextView alloc] initWithFrame:CGRectMake(2, 0, Devicewidth-50, 60)];

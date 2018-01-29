@@ -99,6 +99,12 @@
       "idiom" : "ipad",
       "size" : "83.5x83.5",
       "scale" : "2x"
+    },
+    {
+      "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "1024-x-1024.jpg",
+      "scale" : "1x"
     }
   ],
   "info" : {

@@ -1013,6 +1013,14 @@ static SlideNavigationController *singletonInstance;
 }
 -(void)showPromptBeaconFound:(NSDictionary *)detailsDict {
 
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    float bottomSpace = 0;
+    if(appDelegate.topSafeAreaInset > 0)
+    {
+        bottomSpace = 30;
+    }
+
+    
     
     selectedBeaconPromtDict = detailsDict;
     
@@ -1029,7 +1037,7 @@ static SlideNavigationController *singletonInstance;
         popView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Devicewidth, Deviceheight)];
         [popView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6f]];
     }
-    contenView = [[UIView alloc] initWithFrame:CGRectMake(0, Deviceheight-210, Devicewidth, 210)];
+    contenView = [[UIView alloc] initWithFrame:CGRectMake(0, Deviceheight-210-bottomSpace, Devicewidth, 210+bottomSpace)];
     contenView.backgroundColor = [UIColor whiteColor];
     [popView addSubview:contenView];
     
@@ -1154,7 +1162,7 @@ static SlideNavigationController *singletonInstance;
     [contenView addSubview:otherBtn];
     
     
-    [[[[UIApplication sharedApplication] windows] lastObject] addSubview:popView];
+    [[[UIApplication sharedApplication] keyWindow] addSubview:popView];
 }
 -(BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange{
     

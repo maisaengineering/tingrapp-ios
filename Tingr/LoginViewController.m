@@ -74,6 +74,14 @@
     [menuButton addTarget:self action:@selector(backClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:menuButton];
     
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    float topSpace = 0;
+    if(appDelegate.topSafeAreaInset > 0)
+    {
+        topSpace = 15;
+    }
+
+    
     menuButton.translatesAutoresizingMaskIntoConstraints = NO;
     /* Leading space to superview */
     NSLayoutConstraint *leftButtonXConstraint = [NSLayoutConstraint
@@ -84,7 +92,7 @@
     NSLayoutConstraint *leftButtonYConstraint = [NSLayoutConstraint
                                                  constraintWithItem:menuButton attribute:NSLayoutAttributeTop
                                                  relatedBy:NSLayoutRelationEqual toItem:self.view attribute:
-                                                 NSLayoutAttributeTop multiplier:1.0f constant:20];
+                                                 NSLayoutAttributeTop multiplier:1.0f constant:20+topSpace];
     /* Fixed width */
     NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:menuButton
                                                                        attribute:NSLayoutAttributeWidth

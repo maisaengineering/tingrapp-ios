@@ -16,6 +16,9 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) SlideNavigationController *navgController;
 @property (nonatomic) BOOL isCalledAPIForBeacon;
+@property (nonatomic, assign) float bottomSafeAreaInset;
+@property (nonatomic, assign) float topSafeAreaInset;
+
 
 -(void)askForNotificationPermission;
 -(void)subscribeUserToFirebase;

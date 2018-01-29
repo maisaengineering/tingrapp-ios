@@ -263,7 +263,10 @@
     [spaceView setBackgroundColor:[UIColor colorWithRed:225/255.0 green:225/255.0 blue:225/255.0 alpha:1.0]];
     [loggedInView addSubview:spaceView];
 
-    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, Deviceheight-190, Devicewidth-100, 190)];
+    float bottomSpace = appdelegate.bottomSafeAreaInset >0? 20 : 0;
+    
+    
+    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, Deviceheight-190 - bottomSpace, Devicewidth-100, 190+bottomSpace)];
     [loggedInView addSubview:contentView];
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((Devicewidth-100-60)/2, 8, 60, 60)];
     [imageView setImage:[UIImage imageNamed:@"AppLogo"]];

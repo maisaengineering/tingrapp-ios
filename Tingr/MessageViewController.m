@@ -16,6 +16,10 @@
     int selectedIndex;
     NSMutableArray *messagesDataArray;
     UIScrollView *scrollView;
+    
+    float topSpace;
+    float bottomSpace;
+
 }
 @end
 
@@ -27,6 +31,17 @@
     singletonObj = [SingletonClass sharedInstance];
     sharedModel   = [ModelManager sharedModel];
     selectedIndex  = 0;
+    
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    topSpace = 0;
+    bottomSpace = 0;
+    if(appDelegate.topSafeAreaInset > 0)
+    {
+        topSpace = 15;
+        bottomSpace = 30;
+    }
+
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self setUpViews];
@@ -37,7 +52,7 @@
 -(void)setUpViews{
     
     
-    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 100, Devicewidth, Deviceheight - 100)];
+    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 100+topSpace, Devicewidth, Deviceheight - 100-topSpace)];
     [scrollView setPagingEnabled:YES];
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.delegate = self;
@@ -46,27 +61,30 @@
     topBar = [[UIView alloc] init];
     [self.view addSubview:topBar];
     [self.view addConstraintsWithFormat:@"H:|[v0]|" forViews:@[topBar]];
-    [self.view addConstraintsWithFormat:@"V:[v0(100)]" forViews:@[topBar]];
+    if(topSpace)
+        [self.view addConstraintsWithFormat:@"V:[v0(115)]" forViews:@[topBar]];
+    else
+        [self.view addConstraintsWithFormat:@"V:[v0(100)]" forViews:@[topBar]];
     
     UICollectionViewFlowLayout *layout2=[[UICollectionViewFlowLayout alloc] init];
     layout2.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     layout2.minimumLineSpacing = 0;
     
     UIButton *backButton  = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0, 20, 44, 44);
+    backButton.frame = CGRectMake(0, 20+topSpace, 44, 44);
     [backButton setImage:[UIImage imageNamed:@"back_arrow"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backButton];
 
     
-    UILabel *nameLabel  = [[UILabel alloc] initWithFrame:CGRectMake(60, 25, Devicewidth - 120, 30)];
+    UILabel *nameLabel  = [[UILabel alloc] initWithFrame:CGRectMake(60, 25+topSpace, Devicewidth - 120, 30)];
     nameLabel.textAlignment = NSTextAlignmentCenter;
     nameLabel.text = @"MESSAGES";
     nameLabel.textColor = [UIColor grayColor];
     nameLabel.font = [UIFont fontWithName:@"Anton" size:25.0];
     [topBar addSubview:nameLabel];
     
-    pageCollectionView =[[UICollectionView alloc] initWithFrame:CGRectMake(0, 62, Devicewidth, 30) collectionViewLayout:layout2];
+    pageCollectionView =[[UICollectionView alloc] initWithFrame:CGRectMake(0, 62+topSpace, Devicewidth, 30) collectionViewLayout:layout2];
     [pageCollectionView setDataSource:self];
     [pageCollectionView setDelegate:self];
     pageCollectionView.backgroundColor = [UIColor whiteColor];
@@ -184,21 +202,20 @@
                                                                                                              attributes:attributes
                                                                                                                 context:nil];
     
-    if(textSize.size.width < Devicewidth/messagesDataArray.count) {
-        
-        nameLabel.frame =  CGRectMake(30, 0, textSize.size.width, 30);
-        view.frame = CGRectMake(0, 0, 30+textSize.size.width, 30);
-        
-    }
-    else {
-        
-        nameLabel.frame =  CGRectMake(30, 0, Devicewidth/messagesDataArray.count - 30, 30);
-        view.frame = CGRectMake(0, 0, Devicewidth/messagesDataArray.count, 30);
+    float width = Devicewidth/(float)messagesDataArray.count;
 
+        nameLabel.frame =  CGRectMake(30, 0, textSize.size.width, 30);
+        view.frame = CGRectMake(0, 0, width, 30);
         
-    }
     
     view.center = cell.contentView.center;
+
+    if(messagesDataArray.count >= 4) {
+        
+        nameLabel.hidden = YES;
+        imageView.center = view.center;
+    }
+    
     
     
     return cell;
@@ -207,8 +224,8 @@
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-        return CGSizeMake(Devicewidth/messagesDataArray.count, 30);
+    float count = (float)messagesDataArray.count;
+        return CGSizeMake(Devicewidth/count, 30);
         
 }
 

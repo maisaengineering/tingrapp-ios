@@ -77,5 +77,6 @@ extern NSString  *const SlideNavigationControllerDidReveal;
 - (void)toggleLeftMenu;
 - (void)toggleRightMenu;
 - (BOOL)isMenuOpen;
+-(void)showPromptBeaconFound:(NSDictionary *)detailsDict;
 
 @end

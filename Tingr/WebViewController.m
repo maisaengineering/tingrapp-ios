@@ -26,9 +26,16 @@
     [webView loadRequest:[NSURLRequest requestWithURL:self.url]];
     [self.view addSubview:webView];
     
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    float topSpace = 0;
+    if(appDelegate.topSafeAreaInset > 0)
+    {
+        topSpace = 15;
+    }
+
     
     UIButton *menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [menuButton setFrame:CGRectMake(Devicewidth-64, 10, 64, 64)];
+    [menuButton setFrame:CGRectMake(Devicewidth-64, 10+topSpace, 64, 64)];
     [menuButton setImage:[UIImage imageNamed:@"navigation_close"] forState:UIControlStateNormal];
     [menuButton addTarget:self action:@selector(backClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:menuButton];

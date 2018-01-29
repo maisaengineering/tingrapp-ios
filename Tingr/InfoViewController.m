@@ -27,6 +27,7 @@
     BOOL animated;
     BOOL canShowISight;
     NSString *microSiteUrl;
+    float topSpace;
     
 }
 
@@ -48,8 +49,13 @@
     photoUtils = [ProfilePhotoUtils alloc];
     appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
+    topSpace = 0;
+    if(appDelegate.topSafeAreaInset > 0)
+        topSpace = 15;
+
+    
     maxHeaderHeight = 200;
-    minHeaderHeight = 64;
+    minHeaderHeight = 64+topSpace;
     previousScrollOffset = 0;
 
     tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Devicewidth,maxHeaderHeight)];
@@ -71,7 +77,7 @@
     [tableHeaderView addSubview:titleLabel];
 
     UIButton *backButton  = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0, 20, 44, 44);
+    backButton.frame = CGRectMake(0, 20+topSpace, 44, 44);
     [backButton setImage:[UIImage imageNamed:@"back_arrow"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backButton];

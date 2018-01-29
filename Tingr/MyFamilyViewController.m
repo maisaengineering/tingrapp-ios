@@ -59,6 +59,8 @@
     UIImage *changedImage;
     NSDictionary *childDetailsDict;
     int selectedIndex;
+    float topSpace;
+    float bottomSpace;
 }
 @end
 
@@ -68,6 +70,15 @@
     [super viewDidLoad];
     
 
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    topSpace = 0;
+    bottomSpace = 0;
+    if(appDelegate.topSafeAreaInset > 0){
+        topSpace = 15;
+        bottomSpace = 30;
+    }
+
+    
     singletonObj = [SingletonClass sharedInstance];
     photoUtils  = [ProfilePhotoUtils alloc];
     photoDateUtils = [ProfileDateUtils alloc];
@@ -77,12 +88,12 @@
     if(sharedModel.userProfile.photograph.length)
     {
         maxHeaderHeight = 200;
-        minHeaderHeight = 64;
+        minHeaderHeight = 64+topSpace;
 
     }
     else{
-        maxHeaderHeight = 64;
-        minHeaderHeight = 64;
+        maxHeaderHeight = 64+topSpace;
+        minHeaderHeight = 64+topSpace;
 
     }
     previousScrollOffset = 0;
@@ -110,7 +121,7 @@
     [tableHeaderView addSubview:imageHeaderView];
     }
     
-    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 20, Devicewidth-100, 44)];
+    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 20+topSpace, Devicewidth-100, 44)];
     [titleLabel setText:@"Manage Family"];
     [titleLabel setTextColor:[UIColor grayColor]];
     titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -118,13 +129,13 @@
     [self.view addSubview:titleLabel];
     
     UIButton *backButton  = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0, 20, 44, 44);
+    backButton.frame = CGRectMake(0, 20+topSpace, 44, 44);
     [backButton setImage:[UIImage imageNamed:@"back_arrow"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backButton];
     
     UIButton *addButton  = [UIButton buttonWithType:UIButtonTypeCustom];
-    addButton.frame = CGRectMake(Devicewidth - 54, 20, 44, 44);
+    addButton.frame = CGRectMake(Devicewidth - 54, 20+topSpace, 44, 44);
     [addButton setImage:[UIImage imageNamed:@"invite"] forState:UIControlStateNormal];
     [addButton addTarget:self action:@selector(addClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:addButton];
@@ -169,7 +180,7 @@
     [overlay setBackgroundColor:[UIColor clearColor]];
     [[[[UIApplication sharedApplication] windows] firstObject] addSubview:overlay];
 
-    plusOptions = [[UIView alloc] initWithFrame:CGRectMake(0, Deviceheight, Devicewidth, 50)];
+    plusOptions = [[UIView alloc] initWithFrame:CGRectMake(0, Deviceheight, Devicewidth, 50+bottomSpace)];
     [plusOptions setBackgroundColor:[UIColor grayColor]];
     [overlay addSubview:plusOptions];
     
@@ -188,7 +199,7 @@
     [addChildButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [addChildButton setBackgroundColor:UIColorFromRGB(0x99CCFF)];
     [addChildButton addTarget:self action:@selector(addButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    [addChildButton setFrame:CGRectMake(0, 0, Devicewidth/2.0f-0.5f, 50)];
+    [addChildButton setFrame:CGRectMake(0, 0, Devicewidth/2.0f-0.5f, 50+bottomSpace)];
     [plusOptions addSubview:addChildButton];
 
     UIButton *inviteButton  = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -197,12 +208,12 @@
     [inviteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [inviteButton setBackgroundColor:UIColorFromRGB(0x99CCFF)];
     [inviteButton addTarget:self action:@selector(inviteClicked) forControlEvents:UIControlEventTouchUpInside];
-    [inviteButton setFrame:CGRectMake(Devicewidth/2.0f+0.5f, 0, Devicewidth/2.0f-0.5f, 50)];
+    [inviteButton setFrame:CGRectMake(Devicewidth/2.0f+0.5f, 0, Devicewidth/2.0f-0.5f, 50+bottomSpace)];
     [plusOptions addSubview:inviteButton];
     
     [UIView animateWithDuration:0.3 animations:^{
         
-        plusOptions.frame = CGRectMake(0, Deviceheight-50, Devicewidth, 50);
+        plusOptions.frame = CGRectMake(0, Deviceheight-50-bottomSpace, Devicewidth, 50+bottomSpace);
         
     }];
     
@@ -250,7 +261,7 @@
     [overlay setBackgroundColor:[UIColor clearColor]];
     [[[[UIApplication sharedApplication] windows] firstObject] addSubview:overlay];
     
-    addChildView = [[UIView alloc] initWithFrame:CGRectMake(20, 20, Devicewidth-40, Deviceheight-40)];
+    addChildView = [[UIView alloc] initWithFrame:CGRectMake(20, 20+topSpace, Devicewidth-40, Deviceheight-40-bottomSpace-topSpace)];
     [overlay addSubview:addChildView];
     addChildView.clipsToBounds = YES;
     addChildView.backgroundColor = [UIColor whiteColor];
@@ -978,7 +989,7 @@
     [inviteView addGestureRecognizer:singleTap];
     
     
-    contentView = [[UIView alloc] initWithFrame:CGRectMake(0, Deviceheight-210, Devicewidth, 210)];
+    contentView = [[UIView alloc] initWithFrame:CGRectMake(0, Deviceheight-210-bottomSpace, Devicewidth, 210+bottomSpace)];
     [contentView setBackgroundColor:[UIColor whiteColor]];
     [inviteView addSubview:contentView];
     
@@ -1070,7 +1081,7 @@
     [inviteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [inviteButton setBackgroundColor:UIColorFromRGB(0x99CCFF)];
     [inviteButton addTarget:self action:@selector(sendInviteClicked) forControlEvents:UIControlEventTouchUpInside];
-    [inviteButton setFrame:CGRectMake(0, contentView.frame.size.height - 50, Devicewidth, 50)];
+    [inviteButton setFrame:CGRectMake(0, contentView.frame.size.height - 50-bottomSpace, Devicewidth, 50+bottomSpace)];
     [contentView addSubview:inviteButton];
 
 

@@ -26,7 +26,14 @@ CLLocationManager *locationManager;
 @implementation AppDelegate
 @synthesize navgController;
 @synthesize isCalledAPIForBeacon;
+@synthesize bottomSafeAreaInset;
+@synthesize topSafeAreaInset;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    bottomSafeAreaInset = 0;
+    topSafeAreaInset = 0;
+
     
     [FIRApp configure];
     
@@ -39,7 +46,12 @@ CLLocationManager *locationManager;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window makeKeyAndVisible];
     
-    
+    if (@available(iOS 11, *)) {
+        UIEdgeInsets inset = [[UIApplication sharedApplication] delegate].window.safeAreaInsets;
+        bottomSafeAreaInset = inset.bottom;
+        topSafeAreaInset = inset.top;
+    }
+
    
         LoadingViewController *home = [[LoadingViewController alloc] init];
         navgController = [[SlideNavigationController alloc] initWithRootViewController:home];

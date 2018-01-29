@@ -11,6 +11,7 @@
 #import "InfoViewController.h"
 #import "VerifiedViewController.h"
 #import "MessageViewController.h"
+#import "SlideNavigationController.h"
 @interface HomeViewController ()
 {
     UIView *topBar;
@@ -115,6 +116,7 @@
     [self setUpViews];
 
 }
+
 -(void)setUpViews {
     
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"isLoggedin"]) {
@@ -299,8 +301,12 @@
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     layout.minimumLineSpacing = 0;
     
+    float topSpace = 0;
+    if(appDelegate.topSafeAreaInset > 0)
+        topSpace = 10;
     
-    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 100, Devicewidth, Deviceheight - 100)];
+    
+    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 100+topSpace, Devicewidth, Deviceheight - 100 - topSpace)];
     [scrollView setPagingEnabled:YES];
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.delegate = self;
@@ -310,8 +316,10 @@
     topBar = [[UIView alloc] init];
     [self.view addSubview:topBar];
     [self.view addConstraintsWithFormat:@"H:|[v0]|" forViews:@[topBar]];
-    [self.view addConstraintsWithFormat:@"V:[v0(100)]" forViews:@[topBar]];
-    
+    if(topSpace)
+        [self.view addConstraintsWithFormat:@"V:[v0(100)]" forViews:@[topBar]];
+    else
+        [self.view addConstraintsWithFormat:@"V:[v0(110)]" forViews:@[topBar]];
     menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [menuButton addTarget:self action:@selector(menuClicked) forControlEvents:UIControlEventTouchUpInside];
     [menuButton setImage:[UIImage imageNamed:@"hamburger"] forState:UIControlStateNormal];
@@ -327,7 +335,7 @@
     NSLayoutConstraint *leftButtonYConstraint = [NSLayoutConstraint
                                                  constraintWithItem:menuButton attribute:NSLayoutAttributeTop
                                                  relatedBy:NSLayoutRelationEqual toItem:self.view attribute:
-                                                 NSLayoutAttributeTop multiplier:1.0f constant:20];
+                                                 NSLayoutAttributeTop multiplier:1.0f constant:20+topSpace];
     /* Fixed width */
     NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:menuButton
                                                                        attribute:NSLayoutAttributeWidth
@@ -363,7 +371,7 @@
     NSLayoutConstraint *lockButtonYConstraint = [NSLayoutConstraint
                                                  constraintWithItem:lockButton attribute:NSLayoutAttributeTop
                                                  relatedBy:NSLayoutRelationEqual toItem:self.view attribute:
-                                                 NSLayoutAttributeTop multiplier:1.0f constant:20];
+                                                 NSLayoutAttributeTop multiplier:1.0f constant:20+topSpace];
     /* Fixed width */
     NSLayoutConstraint *lockButtonwidthConstraint = [NSLayoutConstraint constraintWithItem:lockButton
                                                                        attribute:NSLayoutAttributeWidth
@@ -386,13 +394,12 @@
     
     topBar.layer.shadowOpacity = 0.5;
     topBar.layer.shadowOffset =  CGSizeMake(0, 1.0);
-    topBar.layer.shadowRadius = 2.0;
     topBar.layer.shadowColor = [[UIColor blackColor] CGColor];
     
     topBar.backgroundColor = [UIColor whiteColor];
 
     
-    nameScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(60, 25, Devicewidth - 120, 30)];
+    nameScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(60, 25+topSpace, Devicewidth - 120, 30)];
     [self.view addSubview:nameScrollView];
 
     blueLine = [[UIView alloc] initWithFrame:CGRectMake((Devicewidth-100)/2,98, 100, 2)];
@@ -404,7 +411,7 @@
     layout2.minimumLineSpacing = 0;
 
     
-    pageCollectionView =[[UICollectionView alloc] initWithFrame:CGRectMake(0, 62, Devicewidth, 30) collectionViewLayout:layout2];
+    pageCollectionView =[[UICollectionView alloc] initWithFrame:CGRectMake(0, 62+topSpace, Devicewidth, 30) collectionViewLayout:layout2];
     [pageCollectionView setDataSource:self];
     [pageCollectionView setDelegate:self];
     pageCollectionView.backgroundColor = [UIColor whiteColor];

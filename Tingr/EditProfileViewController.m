@@ -31,6 +31,7 @@
     TPKeyboardAvoidingScrollView *scrollView;
     BOOL isUpdateApiInProgress;
     BOOL isChangeImageApiInProgress;
+    float topSpace;
 }
 @end
 
@@ -39,6 +40,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    topSpace = 0;
+    if(appDelegate.topSafeAreaInset > 0)
+        topSpace = 15;
+
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     sharedModel = [ModelManager sharedModel];
@@ -54,18 +60,20 @@
 }
 -(void)setUpViews {
     
-    topBar =[[UIView alloc] initWithFrame:CGRectMake(0, 0, Devicewidth, 64)];
+
+    
+    topBar =[[UIView alloc] initWithFrame:CGRectMake(0, 0, Devicewidth, 64+topSpace)];
     [topBar setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:topBar];
     
     UIButton *backButton  = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0, 20, 44, 44);
+    backButton.frame = CGRectMake(0, 20+topSpace, 44, 44);
     [backButton setImage:[UIImage imageNamed:@"back_arrow"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backClicked) forControlEvents:UIControlEventTouchUpInside];
     [topBar addSubview:backButton];
     
     UIButton *tickButton  = [UIButton buttonWithType:UIButtonTypeCustom];
-    tickButton.frame = CGRectMake(Devicewidth-44, 20, 44, 44);
+    tickButton.frame = CGRectMake(Devicewidth-44, 20+topSpace, 44, 44);
     [tickButton setImage:[UIImage imageNamed:@"navigation_done"] forState:UIControlStateNormal];
     [tickButton addTarget:self action:@selector(sumbitClicked) forControlEvents:UIControlEventTouchUpInside];
     [topBar addSubview:tickButton];
@@ -81,7 +89,7 @@
         [fullName appendString:sharedModel.userProfile.lname];
     }
     
-    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 20, Devicewidth-100, 44)];
+    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 20+topSpace, Devicewidth-100, 44)];
     [titleLabel setText:fullName];
     [titleLabel setTextColor:[UIColor grayColor]];
     titleLabel.font = [UIFont fontWithName:@"Anton" size:20.0];
@@ -93,7 +101,7 @@
     topBar.layer.shadowRadius = 2.0;
     topBar.layer.shadowColor = [[UIColor blackColor] CGColor];
     
-    scrollView = [[TPKeyboardAvoidingScrollView alloc] initWithFrame:CGRectMake(0, topBar.frame.size.height, Devicewidth, Deviceheight -topBar.frame.size.height )];
+    scrollView = [[TPKeyboardAvoidingScrollView alloc] initWithFrame:CGRectMake(0, topBar.frame.size.height+topSpace, Devicewidth, Deviceheight -topBar.frame.size.height )];
     [self.view addSubview:scrollView];
     
     profileImageView = [[UIImageView alloc] initWithFrame:CGRectMake((Devicewidth-150)/2, 20, 150, 150)];

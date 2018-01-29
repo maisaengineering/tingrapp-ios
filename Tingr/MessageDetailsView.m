@@ -24,6 +24,7 @@
     BOOL isMoreAvailabel;
     NSMutableArray *sortedKeys;
     UIRefreshControl *refreshControl;
+    float bottomSpace;
 
 }
 @synthesize messagesData;
@@ -44,6 +45,13 @@
 -(void)baseInit {
     
     
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    bottomSpace = 0;
+    if(appDelegate.topSafeAreaInset > 0)
+    {
+        bottomSpace = 30;
+    }
+    
     sharedModel   = [ModelManager sharedModel];
     photoUtils = [ProfilePhotoUtils alloc];
     
@@ -51,7 +59,7 @@
 
 
     
-    messageDetailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height-80)];
+    messageDetailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height-80-bottomSpace)];
     [messageDetailTableView setDelegate:self];
     [messageDetailTableView setDataSource:self];
     messageDetailTableView.tableFooterView = [[UIView alloc] init];
@@ -99,7 +107,7 @@
 }
 -(void)createMessageView {
     
-    self.commentView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 80, self.frame.size.width, 80)];
+    self.commentView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 80-bottomSpace, self.frame.size.width, 80+bottomSpace)];
     self.commentView.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.commentView];
     self.txt_comment = [[UITextView alloc] initWithFrame:CGRectMake(2, 0, self.frame.size.width-87, 80)];
@@ -121,7 +129,7 @@
     
     //Upvote
     UIButton *sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [sendBtn setFrame:CGRectMake(Devicewidth-80, 0, 80, 80)];
+    [sendBtn setFrame:CGRectMake(Devicewidth-80, 0, 80, 80+bottomSpace)];
     sendBtn.backgroundColor = [UIColor colorWithRed:95/255.0 green:167/255.0 blue:239/255.0 alpha:1.0];
     [sendBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [sendBtn setTitle:@"SEND" forState:UIControlStateNormal];
@@ -526,7 +534,15 @@
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssz"];
+    
     NSDate *date = [dateFormatter dateFromString:create_at];
+    
+    if(date == nil) {
+        
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSX"];
+        date = [dateFormatter dateFromString:create_at];
+    }
+    
     [dateFormatter setDateFormat:@"EEE, MMM d, ''yy 'at' hh:mm a"];
     NSString *formattedTime = [dateFormatter stringFromDate:date];
     

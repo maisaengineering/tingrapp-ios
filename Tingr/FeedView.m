@@ -44,6 +44,7 @@
         feedTableView =[[UITableView alloc] initWithFrame:self.bounds];
         [feedTableView setDataSource:self];
         [feedTableView setDelegate:self];
+        feedTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
         feedTableView.backgroundColor = [UIColor whiteColor];
         [feedTableView registerClass:[ContentCell class] forCellReuseIdentifier:@"ContentCell"];
         [self addSubview:feedTableView];
@@ -259,6 +260,7 @@
 {
     ContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContentCell"];
     cell.post = storiesArray[indexPath.row];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.delegate = self;
     cell.postIndex = (int)indexPath.row;
     return cell;

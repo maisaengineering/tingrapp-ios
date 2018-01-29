@@ -268,7 +268,7 @@ static CGFloat const kAnimationDuration = 0.5;
     UIButton *btnClose = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnClose addTarget:self action:@selector(handleDefocusGesture:) forControlEvents:UIControlEventTouchUpInside];
     [btnClose setImage:[UIImage imageNamed:@"navigation_close"] forState:UIControlStateNormal];
-    btnClose.frame = CGRectMake(Devicewidth-64, 10, 64, 64);
+    btnClose.frame = CGRectMake(Devicewidth-64, 20, 64, 64);
     
     [focusViewController.view addSubview:btnClose];
     
@@ -283,7 +283,7 @@ static CGFloat const kAnimationDuration = 0.5;
                       value:@(NSUnderlineStyleSingle)
                       range:range];
     [btnDownload setAttributedTitle:tncString forState:UIControlStateNormal];
-    btnDownload.frame = CGRectMake((Devicewidth-200)/2.0, Deviceheight -40, 200, 30);
+    btnDownload.frame = CGRectMake((Devicewidth-200)/2.0, Deviceheight -40- 20, 200, 30);
     [focusViewController.view addSubview:btnDownload];
     
 
