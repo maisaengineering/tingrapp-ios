@@ -51,9 +51,13 @@
 @synthesize post;
 @synthesize messageDetailTableView;
 @synthesize showComment;
+@synthesize post_ID;
+@synthesize comment_ID;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self.view setBackgroundColor:[UIColor whiteColor]];
     
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     topSpace = 0;
@@ -79,7 +83,7 @@
     maxHeaderHeight = 300;
     minHeaderHeight = 64+topSpace;
     previousScrollOffset = 0;
-    [self setUpViews];
+    
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     
@@ -94,6 +98,11 @@
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
 
+    if(self.post.count > 0) {
+
+        [self setUpViews];
+    }
+    
     [self callPostFullAPI];
  
 }
@@ -102,12 +111,21 @@
     
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"isLoggedin"])
     {
+        NSString *kl_id;
         
-        int count = [[self.post objectForKey:@"view_count"] intValue];
-        [self.post setObject:[NSNumber numberWithInt:count+1] forKey:@"view_count"];
+        if(self.post.count > 0) {
+            
+            kl_id = [NSString stringWithFormat:@"%@",[self.post objectForKey:@"kl_id"]];
+            int count = [[self.post objectForKey:@"view_count"] intValue];
+            [self.post setObject:[NSNumber numberWithInt:count+1] forKey:@"view_count"];
 
-        
-        NSString *kl_id = [NSString stringWithFormat:@"%@",[self.post objectForKey:@"kl_id"]];
+        }
+        else if(self.post_ID.length > 0) {
+            
+            kl_id = [NSString stringWithFormat:@"%@",self.post_ID];
+            
+            [SVProgressHUD show];
+        }
     
     AccessToken* token = sharedModel.accessToken;
     UserProfile *_userProfile = sharedModel.userProfile;
@@ -128,10 +146,23 @@
     API *api = [[API alloc] init];
     [api fetchJSON:parameterDict completionWithSuccess:^(NSDictionary *json) {
         
+        if(self.post_ID.length > 0) {
+            
+            NSDictionary *body = [[json objectForKey:@"response"] objectForKey:@"body"];
+            self.post = [[body objectForKey:@"post"] mutableCopy];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self setUpViews];
+            });
 
+        }
+        
+        [SVProgressHUD dismiss];
+        
+        
     } failure:^(NSDictionary *json) {
         
-        
+        [SVProgressHUD dismiss];
     }];
         
     }

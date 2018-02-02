@@ -65,6 +65,17 @@
     [appDelegate.navgController toggleLeftMenu];
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:YES];
+    if(appDelegate.isPushCalled)
+    {
+        [appDelegate pushNotificationClicked];
+        appDelegate.isPushCalled = NO;
+    }
+    
+}
+
 -(void)viewWillLayoutSubviews {
     
     
@@ -317,9 +328,9 @@
     [self.view addSubview:topBar];
     [self.view addConstraintsWithFormat:@"H:|[v0]|" forViews:@[topBar]];
     if(topSpace)
-        [self.view addConstraintsWithFormat:@"V:[v0(100)]" forViews:@[topBar]];
-    else
         [self.view addConstraintsWithFormat:@"V:[v0(110)]" forViews:@[topBar]];
+    else
+        [self.view addConstraintsWithFormat:@"V:[v0(100)]" forViews:@[topBar]];
     menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [menuButton addTarget:self action:@selector(menuClicked) forControlEvents:UIControlEventTouchUpInside];
     [menuButton setImage:[UIImage imageNamed:@"hamburger"] forState:UIControlStateNormal];

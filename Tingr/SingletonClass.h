@@ -102,4 +102,6 @@
 
 - (NSMutableArray *)getDocumentjsonResponseForCategoryId:(NSString *)categoryId profileId:(NSString *)profileId depth:(NSString *)depth;
 -(void)shareToInstagram;
+
+-(void)setUserDetails;
 @end

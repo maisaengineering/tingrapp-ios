@@ -183,7 +183,66 @@
     isShowingBeaconPrompt = NO;
     
 }
-
+-(void)setUserDetails {
+    
+    BOOL key = [[NSUserDefaults standardUserDefaults] boolForKey:@"isLoggedin"];
+    if(key)
+    {
+        if([[ModelManager sharedModel] accessToken] == nil)
+        {
+            
+            ModelManager *shared = [ModelManager sharedModel];
+            SingletonClass *singletonObj = self;
+            AccessToken *token = [[AccessToken alloc] init];
+            NSMutableDictionary *parsedObject = [[NSUserDefaults standardUserDefaults] objectForKey:@"tokens"];
+            
+            NSMutableDictionary *profilesListResponse = [[NSUserDefaults standardUserDefaults] objectForKey:@"userProfile"];
+            UserProfile *userProfile = [[UserProfile alloc] init];
+            userProfile.auth_token   = [[profilesListResponse valueForKey:@"body"] valueForKey:@"auth_token"];
+            userProfile.onboarding   = [[[profilesListResponse valueForKey:@"body"] valueForKey:@"onboarding"] intValue];
+            userProfile.onboarding_partner   = [[profilesListResponse valueForKey:@"body"] valueForKey:@"onboarding_partner"];
+            NSDictionary *dic = [[profilesListResponse valueForKey:@"body"] valueForKey:@"profile"];
+            userProfile.onboarding_tour   = [[profilesListResponse valueForKey:@"body"] valueForKey:@"onboarding_tour"];
+            
+            userProfile.kl_id = [dic valueForKey:@"kl_id"];
+            userProfile.photograph = [dic valueForKey:@"photograph"];
+            userProfile.fname = [dic valueForKey:@"fname"];
+            userProfile.lname = [dic valueForKey:@"lname"];
+            userProfile.email = [dic valueForKey:@"email"];
+            userProfile.phone_numbers = [dic valueForKey:@"phone_numbers"];
+            userProfile.verified_phone_number = [dic valueForKey:@"verified_phone_number"];
+            userProfile.isight_enabled                    = [[[parsedObject valueForKey:@"body"] valueForKey:@"isight_enabled"] boolValue];
+            
+            userProfile.verified = [[[profilesListResponse objectForKey:@"body"] objectForKey:@"verified"] boolValue];
+            //TODO: This is overriding the original user profile and items like the verfified phone number
+            //are not being put in
+            //we should have the user profile once and in one place
+            
+            shared.userProfile = userProfile;
+            
+            singletonObj.profileKids            = [[[NSUserDefaults standardUserDefaults] objectForKey:@"profileKids"] mutableCopy];
+            singletonObj.profileParents         = [[NSUserDefaults standardUserDefaults] objectForKey:@"profileParents"];
+            singletonObj.profileOnboarding      = [[NSUserDefaults standardUserDefaults] objectForKey:@"profileOnboarding"];
+            singletonObj.sortedParentKidDetails = [[[NSUserDefaults standardUserDefaults] objectForKey:@"sortedParentKidDetails"] mutableCopy];
+            singletonObj.sortedKidDetails = [[[NSUserDefaults standardUserDefaults] objectForKey:@"sortedKidDetails"] mutableCopy];
+            
+            
+            singletonObj.arrayKidsLinkUsers     = [[NSUserDefaults standardUserDefaults] objectForKey:@"arrayKidsLinkUsers"];
+            singletonObj.arrayShowProfiles      = [[NSUserDefaults standardUserDefaults] objectForKey:@"arrayShowProfiles"];
+            
+            for (NSString *key in parsedObject)
+            {
+                if ([token respondsToSelector:NSSelectorFromString(key)]) {
+                    
+                    [token setValue:[parsedObject valueForKey:key] forKey:key];
+                }
+            }
+            
+            shared.accessToken = token;
+            
+        }
+    }
+}
 - (NSString *)stringFromStatus:(NetworkStatus) status
 {
     NSString *string;

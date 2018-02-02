@@ -1683,7 +1683,7 @@
     keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
     
     // get a rect for the textView frame
-    CGRect containerFrame = CGRectMake(20, 20, Devicewidth-40, Deviceheight-keyboardBounds.size.height-40);
+    CGRect containerFrame = CGRectMake(20, 20+topSpace, Devicewidth-40, Deviceheight-keyboardBounds.size.height-40-topSpace);
     // animations settings
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
@@ -1703,7 +1703,7 @@
     NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
     
     // get a rect for the textView frame
-    CGRect containerFrame = CGRectMake(20, 20, Devicewidth-40, Deviceheight-40);
+    CGRect containerFrame = CGRectMake(20, 20+topSpace, Devicewidth-40, Deviceheight-40-topSpace);
     
     // animations settings
     [UIView beginAnimations:nil context:NULL];

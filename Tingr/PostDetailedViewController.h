@@ -16,6 +16,8 @@
 
 @interface PostDetailedViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,ASMediasFocusDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic, strong) NSMutableDictionary *post;
+@property (nonatomic, strong) NSString *post_ID;
+@property (nonatomic, strong) NSString *comment_ID;
 @property (strong, nonatomic) ASMediaFocusManager *mediaFocusManager;
 @property (nonatomic, strong)  UITableView *messageDetailTableView;
 @property (nonatomic, weak) id<PostDetailedDelegate> delegate;

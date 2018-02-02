@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "LoadingViewController.h"
+#import "PostDetailedViewController.h"
+#import "MessageViewController.h"
 @import UserNotifications;
 @import Firebase;
 
@@ -19,6 +21,8 @@ CLLocationManager *locationManager;
     NSDictionary *regionDictionary;
     CBCentralManager *centralManager;
     UIBackgroundTaskIdentifier bgTask;
+    NSString *notifiUID;
+    NSDictionary *userDict;
     
 }
 @end
@@ -28,8 +32,10 @@ CLLocationManager *locationManager;
 @synthesize isCalledAPIForBeacon;
 @synthesize bottomSafeAreaInset;
 @synthesize topSafeAreaInset;
-
+@synthesize isPushCalled;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [[SingletonClass sharedInstance] setUserDetails];
     
     bottomSafeAreaInset = 0;
     topSafeAreaInset = 0;
@@ -87,6 +93,24 @@ CLLocationManager *locationManager;
     BOOL isISightOn = [[userDefaults objectForKey:@"isight_enabled"] boolValue];
     if(isISightOn)
         [self initialise];
+
+    
+    if (launchOptions != nil)
+    {
+        
+        NSDictionary* dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (dictionary != nil)
+        {
+            if(!isPushCalled)
+            {
+                isPushCalled = YES;
+                notifiUID = [dictionary objectForKey:@"notification_id"];
+                userDict = dictionary;
+                
+            }
+        }
+        
+    }
 
     
     // Override point for customization after application launch.
@@ -162,9 +186,76 @@ CLLocationManager *locationManager;
     
     // Print message ID.
     // Print full message.
+    
+    if ( (application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground) && ![[userInfo objectForKey:@"notification_id"] isEqualToString:notifiUID] )
+    {
+        AccessToken* token = [[ModelManager sharedModel] accessToken];
+        if(token != nil || token.access_token != nil)
+        {
+            [self actUponNotification:userInfo];
+        }
+    }
+
+    
     DebugLog(@"%@", userInfo);
 }
+-(void)pushNotificationClicked {
+    
+    [self actUponNotification:userDict];
+}
 
+- (void)actUponNotification:(NSDictionary*)userInfo {
+    
+    DebugLog(@"in  has notifications %s",__func__);
+    
+    
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"killed"];
+    
+    NSString *type = [[userInfo valueForKey:@"type"] lowercaseString];
+
+    
+    if([type isEqualToString:@"post"] || [type isEqualToString:@"comment"] || [type isEqualToString:@"vote"]) {
+        
+        NSString *post_id = [userInfo valueForKey:@"post_id"];
+        NSString *comment_id = [userInfo valueForKey:@"comment_id"];
+
+        if(post_id != nil && post_id.length > 0)
+        {
+            [[SlideNavigationController sharedInstance] closeMenuWithCompletion:nil];
+            
+            PostDetailedViewController *postCntrl = [[PostDetailedViewController alloc] init];
+            postCntrl.post_ID = post_id;
+            postCntrl.comment_ID = comment_id;
+
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.navgController pushViewController:postCntrl animated:YES];
+            });
+        }
+        
+        
+    }
+    else if([type isEqualToString:@"message"]) {
+        
+        
+            [[SlideNavigationController sharedInstance] closeMenuWithCompletion:nil];
+            
+            MessageViewController *msgCntrl = [[MessageViewController alloc] init];
+            msgCntrl.isFromPushNotification = YES;
+        
+        NSMutableDictionary *infoDict = [userInfo mutableCopy];
+        [infoDict setObject:[userInfo objectForKey:@"organization_id"] forKey:@"org_id"];
+        
+            msgCntrl.pushNotificationDict = infoDict;
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.navgController pushViewController:msgCntrl animated:YES];
+            });
+
+        
+    }
+}
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
@@ -211,6 +302,8 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     NSString *string = [NSString stringWithFormat:@"/topics/tingr_%@",[[[ModelManager sharedModel] userProfile] kl_id]];
     [[FIRMessaging messaging] subscribeToTopic:string];
     
+    NSString *fcmToken  = [[FIRInstanceID instanceID] token];
+    NSLog(@"FCM registration token: %@", fcmToken);
     
 }
 
@@ -542,5 +635,9 @@ monitoringDidFailForRegion:(nullable CLRegion *)region
 }
 
 
+
+- (void)applicationReceivedRemoteMessage:(nonnull FIRMessagingRemoteMessage *)remoteMessage {
+    
+}
 
 @end

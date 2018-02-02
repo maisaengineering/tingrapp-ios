@@ -25,6 +25,8 @@
 
 @implementation MessageViewController
 @synthesize pageCollectionView;
+@synthesize pushNotificationDict;
+@synthesize isFromPushNotification;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -100,7 +102,22 @@
 
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    [self callAPI];
+    if(self.isFromPushNotification) {
+     
+        messagesDataArray = [NSMutableArray arrayWithObjects:pushNotificationDict, nil];
+        [self setContentInMessageDetails];
+        scrollView.contentSize = CGSizeMake(Devicewidth*messagesDataArray.count, Devicewidth-100);
+        [pageCollectionView reloadData];
+
+        
+    }
+    else {
+        
+        [self callAPI];
+    }
+    
+    
+    
 }
 -(void)backClicked {
     
@@ -202,19 +219,21 @@
                                                                                                              attributes:attributes
                                                                                                                 context:nil];
     
-    float width = Devicewidth/(float)messagesDataArray.count;
-
+    if(textSize.size.width < Devicewidth/messagesDataArray.count) {
+      
         nameLabel.frame =  CGRectMake(30, 0, textSize.size.width, 30);
-        view.frame = CGRectMake(0, 0, width, 30);
+               view.frame = CGRectMake(0, 0, 30+textSize.size.width, 30);
         
-    
-    view.center = cell.contentView.center;
-
-    if(messagesDataArray.count >= 4) {
+            }
+        else {
         
+                nameLabel.frame =  CGRectMake(30, 0, Devicewidth/messagesDataArray.count - 30, 30);
+                view.frame = CGRectMake(0, 0, Devicewidth/messagesDataArray.count, 30);
+        }
+        
+           view.center = cell.contentView.center;
+    if(messagesDataArray.count > 3)
         nameLabel.hidden = YES;
-        imageView.center = view.center;
-    }
     
     
     

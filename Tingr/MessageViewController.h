@@ -11,4 +11,7 @@
 @interface MessageViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property(nonatomic, strong) UICollectionView *pageCollectionView;
+@property (nonatomic, assign) BOOL isFromPushNotification;
+@property(nonatomic, strong) NSDictionary *pushNotificationDict;
+
 @end

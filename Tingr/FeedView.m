@@ -7,7 +7,6 @@
 //
 
 #import "FeedView.h"
-
 #import "PostDetailedViewController.h"
 
 @implementation FeedView

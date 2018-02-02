@@ -18,13 +18,14 @@
 @property (nonatomic) BOOL isCalledAPIForBeacon;
 @property (nonatomic, assign) float bottomSafeAreaInset;
 @property (nonatomic, assign) float topSafeAreaInset;
-
+@property (nonatomic) BOOL isPushCalled;
 
 -(void)askForNotificationPermission;
 -(void)subscribeUserToFirebase;
 
 -(void)initialise;
 -(void)stopMonitoring;
+-(void)pushNotificationClicked;
 
 @end
 
