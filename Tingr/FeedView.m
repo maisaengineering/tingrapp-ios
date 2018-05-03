@@ -37,15 +37,16 @@
         refreshControl.tintColor = [UIColor grayColor];
         [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
         
-        
-        
-        
         feedTableView =[[UITableView alloc] initWithFrame:self.bounds];
         [feedTableView setDataSource:self];
         [feedTableView setDelegate:self];
         feedTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
         feedTableView.backgroundColor = [UIColor whiteColor];
         [feedTableView registerClass:[ContentCell class] forCellReuseIdentifier:@"ContentCell"];
+        feedTableView.estimatedRowHeight = 0;
+        feedTableView.estimatedSectionHeaderHeight = 0;
+        feedTableView.estimatedSectionFooterHeight = 0;
+
         [self addSubview:feedTableView];
         [feedTableView addSubview:refreshControl];
 
@@ -80,7 +81,7 @@
     // Released above the header
     [self clearAllData];
     timeStamp = @"";
-    [self performSelectorInBackground:@selector(callStoresApi:) withObject:@"next"];
+    [self callStoresApi:@"next"];
 
 }
 
@@ -218,7 +219,6 @@
         
         [feedTableView reloadData];
         
-        
     }
     
     [refreshControl endRefreshing];
@@ -278,7 +278,7 @@
     if(title.length) {
         
         NSDictionary *attribs = @{
-                                  NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:15]
+                                  NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:17]
                                   };
         
         ;
@@ -304,7 +304,7 @@
         
         
         NSDictionary *attribs = @{
-                                  NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Bold" size:13]
+                                  NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Bold" size:14]
                                   };
         
         ;
@@ -327,10 +327,10 @@
     if(commentsArray.count >0)
     {
         NSDictionary *dict = [commentsArray lastObject];
-        NSString *commentText = [NSString stringWithFormat:@"recent coment \n%@",[dict objectForKey:@"content"]];
+        NSString *commentText = [NSString stringWithFormat:@"recent comment by %@\n%@",[dict objectForKey:@"commented_by"],[dict objectForKey:@"content"]];
         
         NSDictionary *attribs = @{
-                                  NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:13]
+                                  NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:14]
                                   };
         
         ;
@@ -358,7 +358,7 @@
     if(storiesArray.count -1 == indexPath.row && isMoreAvailabel)
     {
         
-        [self performSelectorInBackground:@selector(callStoresApi:) withObject:@"next"];;
+        [self callStoresApi:@"next"];
     }
 
     
